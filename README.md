@@ -52,8 +52,7 @@ script= dict([("ObjectName", "M32"),
 | StationName | Specify TRT observatory | SRO, SBO, or GAO |
 | RA | Right Ascension of the object | hh:mm:ss |
 | DEC | Declination of the object | dd:mm:ss |
-| BinningXY | Binning factor X,Y  | pixels 
- |
+| BinningXY | Binning factor X,Y  | pixels |
 | CadenceInterval | Time between exposures | hh:mm:ss |
 | MaxAirmass | Maximum airmass allowed for observations | number |
 | PA | Position angle | degrees  |
