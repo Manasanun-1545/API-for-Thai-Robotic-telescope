@@ -56,17 +56,14 @@ script= dict([("ObjectName", "M32"),
 | CadenceInterval | Time between exposures | hh:mm:ss |
 | MaxAirmass | Maximum airmass allowed for observations | number |
 | PA | Position angle | degrees  |
-| Dither | Dithering offset | arcsec unit
-(0: no dither, 1:3x3, 2:5x5) |
+| Dither | Dithering offset | arcsec unit (0: no dither, 1:3x3, 2:5x5) |
 | ExpiryDate | Date and time the observation request expires | ISO format |
 | StartDate | Start date and time of the observation | ISO format |
 | EndDate | End date and time of the observation | ISO format |
-| ExposuresMode | Mode of exposures | number 
-(1 : SEQUENCE, 2 : INTERLACED) |
+| ExposuresMode | Mode of exposures | number (1 : SEQUENCE, 2 : INTERLACED) |
 | M3Port | Port number  | number |
 | Filter | List of filters | B, V, R, I |
-| Suffix | Suffix add to image filenames for each filter | suffix 
-(e.g. {}_B, {}_V, {}_R, , {}_I) |
+| Suffix | Suffix add to image filenames for each filter | suffix (e.g. {}_B, {}_V, {}_R, , {}_I) |
 | Exposure | Exposure time for each filter | seconds |
 | Repeat | Number of times to repeat each filter observation | number |
 
