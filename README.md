@@ -12,13 +12,12 @@ import json
 ### **2. API Setup**
 
 ```python
-url = "Enter Your API address"
+url = "https://trt.narit.or.th/hub/api/checkobservation"
 keep_id = []
 ```
 
-- `url` stores the API address for sending requests. Replace it with your personal API. 
-(e.g. "http://199.999.9.99:9900/hub/api/newobservation")
-- `keep_id` ****is an empty list that will be used to store the id of the observation API response .
+- `url` stores the API address for sending requests.
+- `keep_id` ****is an empty list that will be used to store the id of the observation API response.
 
 ### **3. Observation parameters**
 
