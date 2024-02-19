@@ -16,7 +16,7 @@ print(txt.rsplit())
 # Splitting IDs
 keep_cid = txt.rsplit()
 
-url = "Enter your API address"
+url = "https://trt.narit.or.th/hub/api/cancelobservation"
 
 payload = json.dumps({
     "obs_id": keep_cid
