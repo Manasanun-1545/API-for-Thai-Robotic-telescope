@@ -4,7 +4,7 @@
 import requests
 import json
 
-url = "https://trt.narit.or.th/hub/api/checkobservation"
+url = "https://trt.narit.or.th/hub/api/newobservation"
 keep_id = []
 
 #Example for script observation to input parameters
