@@ -13,7 +13,15 @@ import json
 ### **2. API Setup**
 
 ```python
+# use for checking observed schedule
 url = "https://trt.narit.or.th/hub/api/checkobservation"
+
+# use for create new observation  
+url = "https://trt.narit.or.th/hub/api/newobservation"
+
+# use for cancelobservation
+url = "https://trt.narit.or.th/hub/api/cancelobservation"
+
 keep_id = []
 ```
 
