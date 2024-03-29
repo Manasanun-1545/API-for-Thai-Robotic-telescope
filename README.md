@@ -1,17 +1,15 @@
 # API Request
-<h4>Thank you Pathompong, our developer from NARIT</h4> 
+<h4>Thank you Pathompong, our developer team at NARIT</h4>
+You can request token from : <html>https://trt.narit.or.th/script</html>, however you must have account and proposal approval.
 The code facilitates observation scheduling on the Thai Robotic Telescope (TRT) through an API request. Here's a breakdown of what it does:
 
-You can request token from : <html>https://trt.narit.or.th/script</html>, however you must have account and proposal approval.
+You can check the schedule for each telescope and its status with
+https://trt.narit.or.th/hub/api/checkobservation
 
-<b>usefull link</b>
-<h5>use for checking observed schedule</h5>
-url = "https://trt.narit.or.th/hub/api/checkobservation"
-
-<h5>use for create new observation</h5>
+For creating new observation, must use this url
 url = "https://trt.narit.or.th/hub/api/newobservation"
 
-<h5>use for cancel observation</h5>
+For cancellation, must use this url
 url = "https://trt.narit.or.th/hub/api/cancelobservation"
 
 ### **1. Import crucial packages**
