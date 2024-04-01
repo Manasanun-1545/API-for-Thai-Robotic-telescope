@@ -6,7 +6,7 @@ The code facilitates observation scheduling on the Thai Robotic Telescope (TRT) 
 You can check the schedule for each telescope and its status with
 https://trt.narit.or.th/hub/api/checkobservation
 
-For creating new observation, must use this url
+For creating new observation, must use this url</br>
 url = "https://trt.narit.or.th/hub/api/newobservation"
 
 For cancellation, must use this url
