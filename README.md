@@ -70,7 +70,7 @@ script= dict([("ObjectName", "M32"),
 | Parameter | Definition | Accepted Input Format |
 | --- | --- | --- |
 | ObjectName | Target name for observation | object name |
-| StationName | Specify TRT observatory | SRO, SBO, or GAO |
+| StationName | Specify TRT observatory | SRO, SBO, GAO, CTO |
 | RA | Right Ascension of the object | hh:mm:ss |
 | DEC | Declination of the object | dd:mm:ss |
 | BinningXY | Binning factor X,Y  | pixels |
