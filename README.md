@@ -1,6 +1,6 @@
 # API Request
 <h4>Thank you Pathompong and our developer team at NARIT</h4>
-You can request token from : <html>https://trt.narit.or.th/script</html>, however you must have account and proposal approval.
+You can request <b>"token"</b> from : <html>https://trt.narit.or.th/script</html>, however you must have account and proposal approval.
 The code facilitates observation scheduling on the Thai Robotic Telescope (TRT) through an API request. Here's a breakdown of what it does:</br></br>
 
 For check your credit, must use this url</br>
