@@ -101,6 +101,13 @@ response = requests.request("POST", url, headers=headers, data=payload)
 keep_id.append(response.text)
 print(response.text)
 ```
+** If your system cannot verify the SSL certificate of API you are trying to access. Here are ways to fix it:
+ - Check Your System's CA Certificates / Update SSL Certificates
+ - Bypassing SSL Verification in a POST Request (Not Recommended)
+   
+   ```python
+     requests.post(url, json=data, verify=False)
+   ```
 
 This section describes the process of sending the observation request to the target API:
 
