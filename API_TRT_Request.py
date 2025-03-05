@@ -47,7 +47,7 @@ payload = json.dumps({
 })
 headers = {
   'Content-Type': 'application/json',
-  'TRT': 'yourtoken'
+  'TRT': 'your_token'
 }
 
 response = requests.request("POST", url, headers=headers, data=payload)
