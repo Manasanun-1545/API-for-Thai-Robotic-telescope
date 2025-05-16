@@ -9,6 +9,9 @@ url = "https://trt.narit.or.th/hub/api/checkbalance"
 For creating new observation, must use this url</br>
 url = "https://trt.narit.or.th/hub/api/newobservation"
 
+For creating new satellite observation with TLE, must use this url **available for some observatory
+url = "https://trt.narit.or.th/hub/api/neworbitsatobs"
+
 For cancellation, must use this url</br>
 url = "https://trt.narit.or.th/hub/api/cancelobservation"
 
