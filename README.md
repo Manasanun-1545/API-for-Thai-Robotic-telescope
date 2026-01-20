@@ -1,213 +1,287 @@
-# API Request
-<h4>Thank you Pathompong and our developer team at NARIT</h4>
-You can request <b>"token"</b> from : <html>https://trt.narit.or.th/script</html>, however you must have account and proposal approval.
-The code facilitates observation scheduling on the Thai Robotic Telescope (TRT) through an API request. Here's a breakdown of what it does:</br></br>
+# Thai Robotic Telescope (TRT) API Documentation
 
-For check your credit, must use this url</br>
-url = "https://trt.narit.or.th/hub/api/checkbalance"
+You can request <b>"token"</b> from: https://trt.narit.or.th/script
 
-For creating new observation, must use this url</br>
-url = "https://trt.narit.or.th/hub/api/newobservation"
+**Note:** You must have an account and proposal approval to obtain a token.
 
-For creating new satellite observation with TLE, must use this url **available for some observatory </br>
-url = "https://trt.narit.or.th/hub/api/neworbitsatobs"
+---
 
-For cancellation, must use this url</br>
-url = "https://trt.narit.or.th/hub/api/cancelobservation"
+## Available API Endpoints
 
-For check your observation, must use this url</br>
-url = "https://trt.narit.or.th/hub/api/checkobservation"
+| Purpose | URL |
+| --- | --- |
+| Check your credit balance | `https://trt.narit.or.th/hub/api/checkbalance` |
+| Create new observation | `https://trt.narit.or.th/hub/api/newobservation` |
+| Create new satellite observation with TLE* | `https://trt.narit.or.th/hub/api/neworbitsatobs` |
+| Cancel observation | `https://trt.narit.or.th/hub/api/cancelobservation` |
+| Check your observation | `https://trt.narit.or.th/hub/api/checkobservation` |
+| Check all observations by observatory | `https://trt.narit.or.th/hub/api/queuemonitor` |
+| Get your files | `https://trt.narit.or.th/hub/api/getfilepath` |
 
-For check all your observation by observatory, must use this url</br>
-url = "https://trt.narit.or.th/hub/api/queuemonitor"
+**Available for some observatory only*
 
-For get your files, must use this url</br>
-url = "https://trt.narit.or.th/hub/api/getfilepath"
+---
 
-### **1. Import crucial packages**
+## Creating New Observation
+
+### Standard Format
 
 ```python
 import requests
 import json
-```
 
-### **2. API Setup**
-
-```python
-
-# use for create new observation  
 url = "https://trt.narit.or.th/hub/api/newobservation"
 
-keep_id = []
-```
-
-- `url` stores the API address for sending requests.
-- `keep_id` ****is an empty list that will be used to store the id of the observation API response.
-
-### **3. Observation parameters**
-
-`script` is a dictionary containing observation parameters. You can define the parameters, values, and formats in this part.
-
-```python
-script= dict([("ObjectName", "M32"),                                                                                                 
-                ("StationName", "SRO"),                                                                                              
-                ("RA", "05:35:17.29"),                                                     
-                ("DEC", "-05:23:27.9"),                                                   
-                ("BinningXY", "1,1"),                                                                                                
-                ("CadenceInterval", "00:00:00"),                                                                                     
-                ("MaxAirmass", "3"),                                                                                                 
-                ("PA", "0"),                                                                                                         
-                ("Dither", "0"),                                                                                                     
-                ("ExpiryDate", "2021-07-31 16:11:21"),                                                                            
-                ("StartDate", "2021-06-20 16:11:21"),                                                                      
-                ("EndDate", "2021-06-26 16:11:21"),                                                                               
-                ("ExposuresMode", "1"),                                                                                              
-                ("M3Port", "1"),                                                                                                     
-                ("Filter", ["B", "V", "R", "I"]),                                                                                    
-                ("Suffix", ["{}_B".format(M32),"{}_V".format(M32),"{}_R".format(M32), "{}_I".format(M32)]),      
-                ("Exposure", ["120","120","120", "120"]),                                                                            
-                ("Repeat", ["5","5","5", "5"])                                                                                       
-              ])
-```
-
-| Parameter | Definition | Accepted Input Format |
-| --- | --- | --- |
-| ObjectName | Target name for observation | object name |
-| StationName | Specify TRT observatory | SRO, SBO, GAO, CTO |
-| RA | Right Ascension of the object | hh:mm:ss |
-| DEC | Declination of the object | dd:mm:ss |
-| BinningXY | Binning factor X,Y  | pixels |
-| CadenceInterval | Time between exposures | hh:mm:ss |
-| MaxAirmass | Maximum airmass allowed for observations | number |
-| PA | Position angle | degrees  |
-| Dither | Dithering offset | arcsec unit (0: no dither, 1:3x3, 2:5x5) |
-| ExpiryDate | Date and time the observation request expires | ISO format |
-| StartDate | Start date and time of the observation | ISO format |
-| EndDate | End date and time of the observation | ISO format |
-| ExposuresMode | Mode of exposures | number (1 : SEQUENCE, 2 : INTERLACED) |
-| M3Port | Port number  | number |
-| Filter | List of filters | B, V, R, I |
-| Suffix | Suffix add to image filenames for each filter | suffix (e.g. {}_B, {}_V, {}_R, , {}_I) |
-| Exposure | Exposure time for each filter | seconds |
-| Repeat | Number of times to repeat each filter observation | number |
-
-### **4. Sending the API request**
-
-```python
-payload = json.dumps({"script": [ script] })
-print(payload, "\n")
-headers = {
-              'Content-Type': 'application/json',
-              'TRT': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDk0MTdhNzQzNzUxYzBmNmNiZGRjMjAiLCJuYW1lIjoiS2FudGhhbmFrb3JuIE5veXNlbmEiLCJncm91cElkIjoxLCJncm91cE5hbWUiOiJyZXNlYXJjaGVyIiwicHJpb3JpdHlJZCI6IjY1OGFjYmJlMDhhYmY2MDI3ODNhMGFjOCIsInByaW9yaXR5Ijo5NSwic3RhcnREYXRlIjoiMjAyNC0wMS0wMVQwMDowMTowMC4wMDBaIiwiZXhwaXJlRGF0ZSI6IjIwMjQtMDQtMzBUMjM6NTk6MDAuMDAwWiIsImlhdCI6MTcwNDk1ODkwMiwiZXhwIjoxNzE0NDYyOTAyfQ.v9bQFhmrThw5sCpD1OAlpHWQa3v_v10EoiPuTxge2yE'
-          }
-response = requests.request("POST", url, headers=headers, data=payload)
-keep_id.append(response.text)
-print(response.text)
-```
-** If your system cannot verify the SSL certificate of API you are trying to access. Here are ways to fix it:
- - Check Your System's CA Certificates / Update SSL Certificates
- - Bypassing SSL Verification in a POST Request (Not Recommended)
-   
-   ```python
-     requests.post(url, json=data, verify=False)
-   ```
-
-This section describes the process of sending the observation request to the target API:
-
-- Preparing the Request Data
-    
-    The code transforms your observation parameters stored in `script` into a JSON format, ensuring that the information is readable by the API.
-    
-- Setting up the Communication Headers:
-    
-    The headers specify the API request details, including JSON content type and your TRT authentication token. 
-    
-- Sending the Request:
-    
-    The request, containing observation parameters and headers, is sent to the API endpoint (URL). The responses are stored in `keep_id` and printed.
-    
-    ```json
-    # Example of the responses
-    {"script": [{"ObjectName": "M32", "StationName": "SRO", "RA": "05:35:17.29", "DEC": "-05:23:27.9",
-     "Subframe": "1", "BinningXY": "1,1", "CadenceInterval": "00:00:00", "MaxAirmass": "3", "PA": "0", 
-     "Dither": "0", "ExpiryDate": "2024-02-20 16:11:21", "StartDate": "2024-02-16 16:11:21",
-     "EndDate": "2024-02-17 16:11:21", "ExposuresMode": "1", "M3Port": "1", "Filter": ["B", "V", "R", "I"],
-     "Suffix": ["M32_B", "M32_V", "M32_R", "M32_I"], "Exposure": ["120", "120", "120", "120"],
-     "Repeat": ["5", "5", "5", "5"]}]}
-    ```
-    
-
-**Note:** 
-
-- Remember to replace `TRT` with your authentication token.
-- You can adjust the observation parameters, values, and formats in the script.
-- View the results on your TRT observation page or through the provided link: https://trt.narit.or.th/observation.
-
-
-# API Cancellation
-
-**1. Saving Observation IDs to ASCII Text**
-
-This code stores observation IDs in an ASCII text file to comply with API requirements for data format because if you use ‘keep_id’ directly, the format of the ID will not match to use with API requirements.
-
-```python
-# Saving observation IDs to ASCII Text
-file_to_write = "obs_id.txt"
-file = open(file_to_write, 'w')
-for i in keep_id:
-    txt = i.replace('[', '').replace(']', '').replace('"', '')
-    file.write(txt+"\n")
- file.close()
-
-# Reading IDs from ASCII Text
-rfile = open(file_to_write, 'r')
-txt = rfile.read()
-rfile.close()
-print(txt.rsplit())
-
-# Splitting IDs
-keep_cid = txt.rsplit()
-```
-
-**2. API Cancellation**
-
-```python
-url = "https://trt.narit.or.th/hub/api/cancelobservation"
-
 payload = json.dumps({
-    "obs_id": keep_cid
+  "script": [
+    {
+      "ObjectName": "M33",
+      "StationName": "SBO",
+      "RA": "13:12:55.24",
+      "DEC": "+18:10:05.4",
+      "Subframe": "3",
+      "BinningXY": "1,1",
+      "CadenceInterval": "00:00:00",
+      "MaxAirmass": "3",
+      "PA": "",
+      "Dither": "1",
+      "ExpiryDate": "",
+      "StartDate": "",
+      "EndDate": "",
+      "ExposuresMode": "1",
+      "M3Port": "1",
+      "Filter": [
+        "Z",
+        "U",
+        "R"
+      ],
+      "Suffix": [
+        "suffixZ",
+        "suffixU",
+        "suffixR"
+      ],
+      "Exposure": [
+        "6",
+        "6",
+        "6"
+      ],
+      "Repeat": [
+        "6",
+        "6",
+        "6"
+      ],
+      "isQuicklook": "0"
+    }
+  ]
 })
-print(payload)
 
 headers = {
   'Content-Type': 'application/json',
-  'TRT': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDk0MTdhNzQzNzUxYzBmNmNiZGRjMjAiLCJuYW1lIjoiS2FudGhhbmFrb3JuIE5veXNlbmEiLCJncm91cElkIjoxLCJncm91cE5hbWUiOiJyZXNlYXJjaGVyIiwicHJpb3JpdHlJZCI6IjY1OGFjYmJlMDhhYmY2MDI3ODNhMGFjOCIsInByaW9yaXR5Ijo5NSwic3RhcnREYXRlIjoiMjAyNC0wMS0wMVQwMDowMTowMC4wMDBaIiwiZXhwaXJlRGF0ZSI6IjIwMjQtMDQtMzBUMjM6NTk6MDAuMDAwWiIsImlhdCI6MTcwNDk1ODkwMiwiZXhwIjoxNzE0NDYyOTAyfQ.v9bQFhmrThw5sCpD1OAlpHWQa3v_v10EgeIuTxge3ui'
+  'TRT': 'YOUR_TOKEN_HERE'
 }
+
 response = requests.request("POST", url, headers=headers, data=payload)
 
 print(response.text)
 ```
 
-**Setting up the request**
+---
 
-- `url`**:** enter URL of the API address.
-- `headers`: define content type and TRT authentication token in header.
-- `payload = json.dumps({"obs_id": keep_cid})`
-    - Construct a JSON data structure with an `obs_id` key set to the value of the `keep_cid` variable. This variable contains an identifier from a previous API response.
-    - To cancel specific observations, include their corresponding `obs_id` values in the request.
-        
-        ```python
-        payload = json.dumps({
-            "obs_id": ["24ZKUG_1", "24YP9X_1", "24F6P5_1", "24WCZG_1", "24P14I_1"]
-        })
-        ```
-        
+## Parameter Reference
 
-**Sending the request**
+### Required Parameters
 
-The code utilizes the `requests` library to send a POST request to the API. POST signifies the HTTP method employed for creating or modifying data.
+| Parameter | Description | Format | Example |
+| --- | --- | --- | --- |
+| `ObjectName` | Target name for observation | String | `"M33"` |
+| `StationName` | TRT observatory | `SRO`, `SBO`, `GAO`, `CTO` | `"SBO"` |
+| `RA` | Right Ascension | `hh:mm:ss.ss` | `"13:12:55.24"` |
+| `DEC` | Declination | `±dd:mm:ss.s` | `"+18:10:05.4"` |
+| `Subframe` | Subframe setting | Number (string) | `"3"` |
+| `BinningXY` | Binning factor X,Y | `"X,Y"` | `"1,1"` |
+| `CadenceInterval` | Time between exposures | `hh:mm:ss` | `"00:00:00"` |
+| `MaxAirmass` | Maximum airmass allowed | Number (string) | `"3"` |
+| `Dither` | Dithering pattern | `0` = no dither<br>`1` = 3×3<br>`2` = 5×5 | `"1"` |
+| `ExposuresMode` | Exposure mode | `1` = SEQUENCE<br>`2` = INTERLACED | `"1"` |
+| `M3Port` | Mirror port number | Number (string) | `"1"` |
+| `Filter` | List of filters to use | Array of strings | `["Z", "U", "R"]` |
+| `Suffix` | Filename suffix for each filter | Array of strings | `["suffixZ", "suffixU", "suffixR"]` |
+| `Exposure` | Exposure time (seconds) for each filter | Array of numbers (string) | `["6", "6", "6"]` |
+| `Repeat` | Number of repeats for each filter | Array of numbers (string) | `["6", "6", "6"]` |
+| `isQuicklook` | Enable quicklook mode | `0` = disabled<br>`1` = enabled | `"0"` |
 
-**Note:**
+### Optional Parameters
 
-- Remember to replace `TRT` with your authentication token.
-- View the results on your TRT observation page or through the provided link: https://trt.narit.or.th/observation.
+| Parameter | Description | Format | Example | Notes |
+| --- | --- | --- | --- | --- |
+| `PA` | Position angle (degrees) | Number (string) or empty | `"45"` or `""` | Use `""` if not specified |
+| `ExpiryDate` | Observation request expiry date | ISO format or empty | `"2026-02-25 16:11:21"` or `""` | Use `""` if not specified |
+| `StartDate` | Observation start date | ISO format or empty | `"2026-01-19 04:11:21"` or `""` | Use `""` if not specified |
+| `EndDate` | Observation end date | ISO format or empty | `"2026-01-20 16:11:21"` or `""` | Use `""` if not specified |
+
+### Available Filters
+
+Filters may vary by observatory. Common filters include:
+> **Note:** Filters available at each observatory may differ. Please check the specific filters available on the TRT website for your chosen observatory before planning your observations.
+- `B` - Blue
+- `V` - Visual
+- `R` - Red
+- `I` - Infrared
+- `Z` - Z-band
+- `U` - Ultraviolet
+---
+
+
+
+
+## Usage Examples
+
+### Example 1: Basic Observation (No Optional Parameters)
+
+```python
+import requests
+import json
+
+url = "https://trt.narit.or.th/hub/api/newobservation"
+
+payload = json.dumps({
+  "script": [
+    {
+      "ObjectName": "NGC1234",
+      "StationName": "SRO",
+      "RA": "05:35:17.29",
+      "DEC": "-05:23:27.9",
+      "Subframe": "1",
+      "BinningXY": "1,1",
+      "CadenceInterval": "00:00:00",
+      "MaxAirmass": "2",
+      "PA": "",
+      "Dither": "0",
+      "ExpiryDate": "",
+      "StartDate": "",
+      "EndDate": "",
+      "ExposuresMode": "1",
+      "M3Port": "1",
+      "Filter": ["B", "V", "R", "I"],
+      "Suffix": ["B_filter", "V_filter", "R_filter", "I_filter"],
+      "Exposure": ["120", "120", "120", "120"],
+      "Repeat": ["5", "5", "5", "5"],
+      "isQuicklook": "0"
+    }
+  ]
+})
+
+headers = {
+  'Content-Type': 'application/json',
+  'TRT': 'YOUR_TOKEN_HERE'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+print(response.text)
+```
+
+### Example 2: With Date/Time Constraints and Position Angle
+
+```python
+import requests
+import json
+
+url = "https://trt.narit.or.th/hub/api/newobservation"
+
+payload = json.dumps({
+  "script": [
+    {
+      "ObjectName": "M31",
+      "StationName": "SBO",
+      "RA": "00:42:44.33",
+      "DEC": "+41:16:09.4",
+      "Subframe": "2",
+      "BinningXY": "2,2",
+      "CadenceInterval": "00:10:00",
+      "MaxAirmass": "3",
+      "PA": "90",
+      "Dither": "1",
+      "ExpiryDate": "2026-03-31 23:59:00",
+      "StartDate": "2026-02-01 18:00:00",
+      "EndDate": "2026-02-28 23:59:00",
+      "ExposuresMode": "2",
+      "M3Port": "1",
+      "Filter": ["R", "I"],
+      "Suffix": ["R_band", "I_band"],
+      "Exposure": ["180", "180"],
+      "Repeat": ["10", "10"],
+      "isQuicklook": "1"
+    }
+  ]
+})
+
+headers = {
+  'Content-Type': 'application/json',
+  'TRT': 'YOUR_TOKEN_HERE'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+print(response.text)
+```
+---
+
+## SSL Certificate Issues
+
+If your system cannot verify the SSL certificate of the API, here are ways to fix it:
+
+### Option 1: Update SSL Certificates (Recommended)
+Check and update your system's CA certificates.
+
+### Option 2: Bypass SSL Verification (Not Recommended)
+
+```python
+response = requests.post(url, json=payload, verify=False)
+```
+
+**Warning:** Bypassing SSL verification is not recommended for production environments as it reduces security.
+
+---
+
+## Important Notes
+
+1. **Authentication Token**: Always replace `'YOUR_TOKEN_HERE'` with your actual authentication token obtained from https://trt.narit.or.th/script
+
+2. **Optional Parameters**: The following parameters can be left as empty strings `""` if not needed:
+   - `PA` (Position Angle)
+   - `ExpiryDate`
+   - `StartDate`
+   - `EndDate`
+
+3. **Array Lengths**: Make sure the arrays for `Filter`, `Suffix`, `Exposure`, and `Repeat` have the same length.
+
+4. **Date Format**: Use ISO format for dates: `YYYY-MM-DD HH:MM:SS`
+
+5. **Monitor Observations**: View your observations at https://trt.narit.or.th/observation
+
+6. **API Response**: The API will return observation IDs upon successful submission. Store these IDs if you need to cancel observations later.
+
+---
+
+## Common Error Troubleshooting
+
+| Error | Possible Cause | Solution |
+| --- | --- | --- |
+| Authentication Error | Invalid or expired token | Request a new token from https://trt.narit.or.th/script |
+| Invalid Format | Incorrect JSON structure | Verify payload matches standard format |
+| Array Length Mismatch | Filter, Suffix, Exposure, Repeat arrays have different lengths | Ensure all arrays have the same length |
+| SSL Certificate Error | System cannot verify SSL certificate | Update CA certificates or use verify=False (not recommended) |
+| Invalid Station Name | Station name not recognized | Use only: SRO, SBO, GAO, CTO|
+
+---
+
+## Additional Resources
+
+- **Request Token**: https://trt.narit.or.th/script
+- **View Observations**: https://trt.narit.or.th/observation
+- **Support**: Contact trt_operation@narit.or.th
+
+---
+
+**Last Updated**: January 2026
+
+**Version**: 2.0
