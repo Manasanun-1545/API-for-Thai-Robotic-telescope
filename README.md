@@ -15,6 +15,7 @@ You can request <b>"token"</b> from: https://trt.narit.or.th/script
 | Create new satellite observation with TLE* | `https://trt.narit.or.th/hub/api/neworbitsatobs` |
 | Cancel observation | `https://trt.narit.or.th/hub/api/cancelobservation` |
 | Check your observation | `https://trt.narit.or.th/hub/api/checkobservation` |
+| Check dome status | `https://trt.narit.or.th/hub/api/checkdome` |
 | Check all observations by observatory | `https://trt.narit.or.th/hub/api/queuemonitor` |
 | Get your files | `https://trt.narit.or.th/hub/api/getfilepath` |
 
